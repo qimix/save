@@ -18,16 +18,13 @@ public class WriteObject {
             ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
             zipOutputStream.putNextEntry(new ZipEntry(file));
 
-            byte[] buffer = new byte[fileInputStream.available()];
-            fileInputStream.read(buffer);
-            zipOutputStream.write(buffer);
+            zipOutputStream.write(fileInputStream.readAllBytes());
 
             zipOutputStream.closeEntry();
 
             fileInputStream.close();
             fileOutputStream.flush();
             fileOutputStream.close();
-
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

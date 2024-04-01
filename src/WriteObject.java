@@ -19,7 +19,8 @@ public class WriteObject {
             zipOutputStream.putNextEntry(new ZipEntry(file));
 
             zipOutputStream.write(fileInputStream.readAllBytes());
-
+            zipOutputStream.finish();
+            zipOutputStream.flush();
             zipOutputStream.closeEntry();
 
             fileInputStream.close();

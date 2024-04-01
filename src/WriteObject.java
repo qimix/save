@@ -13,10 +13,9 @@ public class WriteObject {
 
     public void zipFiles(String file, String arch) {
         try(FileInputStream fileInputStream = new FileInputStream(file); ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(arch))){
-            zipOutputStream.putNextEntry(new ZipEntry("save4.dat"));
+            zipOutputStream.putNextEntry(new ZipEntry(new File(file).getName()));
             zipOutputStream.write(fileInputStream.readAllBytes());
             zipOutputStream.closeEntry();
-
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

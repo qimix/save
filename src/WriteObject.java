@@ -4,7 +4,7 @@ import java.util.zip.ZipOutputStream;
 
 public class WriteObject {
     public void saveGame(GameProgress gameProgress, String savePath) {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(savePath))) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(savePath, true))) {
             outputStream.writeObject(gameProgress);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -12,13 +12,22 @@ public class WriteObject {
     }
 
     public void zipFiles(String file, String arch){
-        try(ZipOutputStream zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(arch)));
-            FileInputStream fileInputStream = new FileInputStream(file)){
+        try{
+            FileInputStream fileInputStream = new FileInputStream(file);
+            FileOutputStream fileOutputStream = new FileOutputStream(arch);
+            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
             zipOutputStream.putNextEntry(new ZipEntry(file));
+
             byte[] buffer = new byte[fileInputStream.available()];
             fileInputStream.read(buffer);
             zipOutputStream.write(buffer);
+
             zipOutputStream.closeEntry();
+
+            fileInputStream.close();
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

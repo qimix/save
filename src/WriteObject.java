@@ -13,7 +13,7 @@ public class WriteObject {
 
     public void zipFiles(String file, String arch) {
         try(FileInputStream fileInputStream = new FileInputStream(file); ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(arch))){
-            zipOutputStream.putNextEntry(new ZipEntry(file));
+            zipOutputStream.putNextEntry(new ZipEntry("save4.dat"));
             zipOutputStream.write(fileInputStream.readAllBytes());
             zipOutputStream.closeEntry();
 

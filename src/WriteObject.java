@@ -18,6 +18,9 @@ public class WriteObject {
                 zipOutputStream.putNextEntry(new ZipEntry(i.getName()));
                 zipOutputStream.write(fileInputStream.readAllBytes());
                 zipOutputStream.closeEntry();
+                fileInputStream.close();
+                i.delete();
+
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }

@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -12,6 +15,7 @@ public class Main {
         saveGame(new GameProgress(3,4,5,6),"C://Games//savegames//save3.dat");
 
         zipFiles(Arrays.asList(new File("C://Games//savegames//").listFiles()),"C://Games//savegames//");
+        delFiles(Arrays.asList(new File("C://Games//savegames//").listFiles()));
     }
 
     static void saveGame(GameProgress gameProgress, String savePath) {
@@ -34,4 +38,14 @@ public class Main {
         }
     }
 
+    static void delFiles(List<File> file){
+        for(File i : file) {
+        Pattern pattern = Pattern.compile(".zip(\\w*)");
+        Matcher matcher = pattern.matcher(i.getName());
+            if(!matcher.find()) {
+                i.delete();
+            }
+        }
+    }
 }
+

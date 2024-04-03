@@ -14,7 +14,7 @@ public class Main {
         saveGame(new GameProgress(2,3,4,5),"C://Games//savegames//save2.dat");
         saveGame(new GameProgress(3,4,5,6),"C://Games//savegames//save3.dat");
 
-        zipFiles(Arrays.asList(new File("C://Games//savegames//").listFiles()),"C://Games//savegames//");
+        zipFiles(Arrays.asList(new File("C://Games//savegames//").listFiles()),"C://Games//savegames//save.zip");
         delFiles(Arrays.asList(new File("C://Games//savegames//").listFiles()));
     }
 
@@ -27,23 +27,25 @@ public class Main {
     }
 
     static void zipFiles(List<File> file, String arch) {
-        for (File i : file) {
-            try (FileInputStream fileInputStream = new FileInputStream(i); ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(arch + i.getName() + ".zip"))) {
-                zipOutputStream.putNextEntry(new ZipEntry(i.getName()));
-                zipOutputStream.write(fileInputStream.readAllBytes());
-                zipOutputStream.closeEntry();
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(arch))) {
+                for (File i : file) {
+                    FileInputStream fileInputStream = new FileInputStream(i);
+                    zipOutputStream.putNextEntry(new ZipEntry(i.getName()));
+                    zipOutputStream.write(fileInputStream.readAllBytes());
+                }
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-        }
     }
+
 
     static void delFiles(List<File> file){
         for(File i : file) {
-        Pattern pattern = Pattern.compile(".zip(\\w*)");
+        Pattern pattern = Pattern.compile(".dat(\\w*)");
         Matcher matcher = pattern.matcher(i.getName());
-            if(!matcher.find()) {
+            if(matcher.find()) {
                 i.delete();
+                System.out.println(i.toString() + " удалён");
             }
         }
     }

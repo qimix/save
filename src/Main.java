@@ -44,8 +44,11 @@ public class Main {
         Pattern pattern = Pattern.compile(".dat(\\w*)");
         Matcher matcher = pattern.matcher(i.getName());
             if(matcher.find()) {
-                i.delete();
-                System.out.println(i.toString() + " удалён");
+                if (i.delete()) {
+                    System.out.println(i.toString() + " удалён");
+                } else {
+                    System.out.println(i.toString() + " не удалён");
+                }
             }
         }
     }
